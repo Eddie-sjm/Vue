@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <!--  定义全局组件  -->
+    <div id="app">
+        <!--我们通过Vue的component方法来定义一个全局组件。-->
+        <counter></counter>
+        <search></search>
+        <!-- 组件其实也是一个Vue实例，因此它在定义时也会接收：data、methods、生命周期函数等
+        不同的是组件不会与页面的元素绑定，否则就无法复用了，因此没有el属性。
+        但是组件渲染需要html模板，所以增加了template属性，值就是HTML模板
+        全局组件定义完毕，任何vue实例都可以直接在HTML中通过组件名称来使用组件了。
+        data的定义方式比较特殊，必须是一个函数。 -->
+        <br/>
+
+        <!-- 组件的复用 -->
+        <!-- 使用定义好的全局组件 -->
+        <!--定义好的组件，可以任意复用多次-->
+        <counter></counter>
+        <counter></counter>
+        <counter></counter>
+
+        <!-- 你会发现每个组件互不干扰，都有自己的count值。怎么实现的？
+         组件的data属性必须是函数！ 当我们定义这个 `<counter>` 组件时
+        ，它的data 并不是像这样直接提供一个对象：-->
+        <!-- data: {
+            count: 0
+        }, -->
+
+        <!-- 取而代之的是，一个组件的 data 选项必须是一个函数，因此每个实例可以维护一份被返回对象的独立的拷贝： -->
+        <!-- data: function () {
+            return {
+                count: 0
+            }
+        } 如果 Vue 没有这条规则，点击一个按钮就会影响到其它所有实例！-->
+
+        <!-- 局部注册 -->
+        <br/>
+        <counter></counter>
+        <!--一旦全局注册，就意味着即便以后你不再使用这个组件，它依然会随着Vue的加载而加载。
+        因此，对于一些并不频繁使用的组件，我们会采用局部注册。
+        我们先在外部定义一个对象，结构与创建组件时传递的第二个参数一致：-->
+        <!-- const counter = {
+            template:'<button v-on:click="count++">你点了我 {{ count }} 次，我记住了.</button>',
+                data(){
+                    return {
+                        count:0
+                    }
+                }
+        }; -->
+
+        <!-- 然后在Vue中使用它： -->
+        <!-- var app = new Vue({
+            el:"#app",
+            components:{
+                counter:counter // 将定义的对象注册为组件
+            }
+        }) -->
+
+        <!-- components就是当前vue对象子组件集合。
+        其key就是子组件名称
+        其值就是组件对象的属性
+        效果与刚才的全局注册是类似的，不同的是，这个counter组件只能在当前的Vue实例中使用 -->
+
+    </div>
+
+
+
+</body>
+<script type="text/javascript">
+    // 定义全局组件，两个参数：1，组件名称。2，组件参数
+    Vue.component("counter",{
+        template:'<button v-on:click="count++">你点了我 {{count}} 次，我记住了.</button>',
+        data(){
+            return {
+                count:0
+            }
+        }
+    });
+    Vue.component("search",{
+        template:"<div>" +
+            "<input type='text' v-model='aa'/>" +
+            "<input type='button' @click='bb' value='search'/>" +
+            "</div>",
+        data(){
+            return {
+                aa:""
+            }
+        },
+        methods:{
+            bb(){
+                console.log(this.aa)
+            }
+        }
+    });
+    const counter = {
+        template:'<button v-on:click="count++">你点了我 {{ count }} 次，我记住了.</button>',
+        data(){
+            return {
+                count:0
+            }
+        }
+    };
+    new Vue({
+        el:"#app",
+        components:{
+            counter:counter// 将定义的对象注册为组件
+        }
+    })
+</script>
+</html>

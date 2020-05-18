@@ -59,6 +59,9 @@
         <!-- watch可以让我们监控一个值的变化。从而做出相应的反应 -->
         <input type="text" v-model="message">
 
+       <!-- watch默认不能对对象进行监控，如果需要对对象或者数组中的元素进行监控，需要采用深度监控。-->
+        姓名：<input type="text" v-model="student.name">
+        <!-- 也可以通过computed监控对象中的某个属性 -->
     </div>
 
 </body>
@@ -67,7 +70,12 @@
        el:"#app",
        data:{
            birthday:1529032123201, // 毫秒值
-           message:""
+           message:"",
+           student:{
+               name:"关灯",
+               age:20
+           },
+
        },
        methods:{
 
@@ -76,12 +84,29 @@
            birth(){// 计算属性本质是一个方法，但是必须返回结果
                const d = new Date(this.birthday);
                return d.getFullYear() + "-" + d.getMonth() + "-" + d.getDay();
+           },
+           //computed监控对象
+           newName(){
+               return this.student.name;
            }
        },
        watch:{
            message(newVal, oldVal){
                console.log(newVal, oldVal);
+           },
+           //深度监控
+           student:{
+               handler(newValue){
+                   alert(newValue.name)
+               },
+               deep:true
+           },
+           //computed监控对象
+           newName(name){
+               alert("newName变化了："+name);
            }
+
+
        }
 
 
