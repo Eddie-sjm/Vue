@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+
+    <!-- v-for 遍历数据-->
+    <!-- 遍历数组 语法：v-for="item in items"   -->
+        <!-- items：要遍历的数组，需要在vue的data中定义好。-->
+        <!-- item：迭代得到的数组元素的别名-->
+
+    <div id="app">
+        <lu>
+            <li  v-for="user in users">
+                {{user.id}}:{{user.name}}:{{user.age}}
+            </li>
+        </lu>
+
+    <!-- 数组角标 语法:v-for="(item,index) in items"-->
+        <!-- items：要遍历的数组，需要在vue的data中定义好。-->
+        <!-- item：迭代得到的数组元素的别名-->
+        <!-- index：迭代到的当前元素索引，从0开始。-->
+        <lu>
+            <li  v-for="(user,index) in users">
+                {{index}}-{{user.id}}:{{user.name}}:{{user.age}}
+            </li>
+        </lu>
+
+    <!--  v-for除了可以迭代数组，也可以迭代对象。语法基本类似-->
+        <!--  语法：
+            v-for="value in object"
+            v-for="(value,key) in object"
+            v-for="(value,key,index) in object"
+            - 1个参数时，得到的是对象的值
+            - 2个参数时，第一个是值，第二个是键
+            - 3个参数时，第三个是索引，从0开始
+        -->
+        <lu>
+            <li  v-for="(value,key,index) in user">
+                {{index}}-{{key}}:{{value}}
+            </li>
+        </lu>
+
+        <!-- 当 Vue.js用 `v-for` 正在更新已渲染过的元素列表时，它默认用“就地复用”策略。
+        如果数据项的顺序被改变，Vue 将不会移动 DOM元素来匹配数据项的顺序，
+        而是简单复用此处每个元素，并且确保它在特定索引下显示已被渲染过的每个元素。 这个功能可以有效的提高渲染的效率。
+        但是要实现这个功能，你需要给Vue一些提示，以便它能跟踪每个节点的身份，从而重用和重新排序现有元素，
+        你需要为每项提供一个唯一 `key` 属性。理想的 `key` 值是每项都有的且唯一的 id。
+        -->
+        <ul>
+            <li v-for="(user,index) in users" :key=index></li>
+        </ul>
+
+    </div>
+
+</body>
+<script type="text/javascript">
+    var app = new Vue({
+        el:"#app",
+        data:{
+            users: [
+                {id:'1',name: '张三', age:15 },
+                {id:'2',name: '赵四', age:16},
+                {id:'3',name: '王五', age:14},
+            ],
+            user:{
+                name:'柳岩', gender:'女', age: 21
+            }
+        },
+    })
+</script>
+</html>

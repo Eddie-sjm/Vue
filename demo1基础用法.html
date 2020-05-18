@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <!--安装vue-->
+    <!--下载安装 下载地址：https://github.com/vuejs/vue-->
+    <!--可以下载2.5.16版本https://github.com/vuejs/vue/archive/v2.5.16.zip-->
+    <!--下载解压，得到vue.js文件。-->
+    <!--使用CDN 或者也可以直接使用公共的CDN服务：-->
+    <!-- 开发环境版本，包含了用帮助的命令行警告 -->
+    <!--<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>-->
+    <!--或者：-->
+    <!-- 生产环境版本，优化了尺寸和速度 -->
+    <!--<script src="https://cdn.jsdelivr.net/npm/vue"></script>-->
+    <!--    推荐npm安装,在idea的左下角，有个Terminal按钮，点击打开控制台：-->
+    <!--    进入目录,先输入：`npm init -y` 进行初始化-->
+    <!--    安装Vue，输入命令：`npm install vue &#45;&#45;save`-->
+    <!--    然后就会在hello-vue目录发现一个node_modules目录，并且在下面有一个vue目录。-->
+    <!--    node_modules是通过npm安装的所有模块的默认位置。-->
+
+
+    <div id="app">
+    <!--差值表达式  格式：使用“Mustache”语法 (双大括号) 的文本插值-->
+        <!-- 例子  {{ number + 1 }}  {{ ok ? 'YES' : 'NO' }}     -->
+        <!-- 对应data里的属性数据      -->
+        <h2>{{name}}你好</h2>
+
+        <h2>{{num}}</h2>
+
+        <!-- 使用{{}}方式在网速较慢时会出现问题。
+        在数据未加载完成时，页面会显示出原始的{{}}，
+        加载完毕后才显示正确数据，我们称为插值闪烁。-->
+        <!-- 解决方案       -->
+            <!-- 使用v-text和v-html指令来替代{{}} 单向绑定 -->
+            <!-- v-text：将数据输出到元素内部，如果输出的数据有HTML代码，会作为普通文本输出 -->
+            <!-- v-html：将数据输出到元素内部，如果输出的数据有HTML代码，会被渲染-->
+        v-text:<span v-text="hello"></span> <br/>
+        v-html:<span v-html="hello"></span>
+
+        <!-- v-model双向绑定 赋值 v-model的可使用元素有：
+            - input  - `input` 默认对应的model是字符串
+            - select  - `select`单选对应字符串，多选对应也是数组
+            - textarea  - textarea` 默认对应的model是字符串
+            - checkbox  - 多个`CheckBox`对应一个model时，model的类型是一个数组，单个checkbox值是boolean类型
+            - radio  - radio对应的值是input的value值
+            - components（Vue中的自定义组件）
+         -->
+        <input type="text" v-model="name"/><br/>
+
+        <input type="checkbox" v-model="language" value="java">java<br/>
+        <input type="checkbox" v-model="language" value="c++">c++<br/>
+        <input type="checkbox" v-model="language" value="php">php<br/>
+        <input type="checkbox" v-model="language" value="python">python<br/>
+
+        <p>
+        你选择了：{{language.join(',')}}
+        </p>
+
+        <!-- v-on 指令监听 DOM 事件，并在触发时运行一些 JavaScript 代码-->
+
+        <!-- v-on:click="" vuejs事件绑定 -->
+        <!-- @click="" vuejs简化事件绑定-->
+            <!-- 事件冒泡 -->
+            <!-- 在事件处理程序中调用 event.preventDefault()或 event.stopPropagation()是非常常见的需求。-->
+            <!-- 尽管我们可以在方法中轻松实现这点，但更好的方式是：方法只有纯粹的数据逻辑，而不是去处理 DOM事件细节。-->
+            <!-- 为了解决这个问题，Vue.js为 v-on提供了事件修饰符。之前提过，修饰符是由点开头的指令后缀来表示的。-->
+            <!--  - .stop：阻止事件冒泡-->
+            <!--  - .prevent：阻止默认事件发生-->
+            <!--  - .capture：使用事件捕获模式-->
+            <!--` - .self：只有元素自身触发事件才执行。（冒泡或捕获的都不执行）-->
+            <!--  - .once：只执行一次-->
+        <!--事件中直接写js片段-->
+        <button v-on:click="num++">点</button><br/>
+        <button @click="num++">点</button><br/>
+
+        <!--方法 methods -->
+        <!--事件指定一个回调函数，必须是Vue实例中定义的函数-->
+        <button v-on:click="add">加</button><br/>
+
+        <!--按键修饰符 v-on:keydown=" "（获取不同键的键值）-->
+        <!-- $event 它是vue中的事件对象  和我们传统js的event对象是一样的-->
+        <!-- 全部的按键别名：-->
+        <!-- - `.enter` - `.tab` - `.delete` (捕获“删除”和“退格”键) -->
+        <!-- - `.esc` - `.space` - `.up` - `.down` - `.left`-->
+        <!-- - `.right`-->
+        <input type="text" v-on:keydown="fun($event)"><br/>
+        <!-- 只有在 `keyCode` 是 13 时调用 `vm.submit()` -->
+        <input v-on:keyup.13="submit">
+        <input v-on:keyup.enter="submit">
+        <input @keyup.enter="submit">
+
+        <!-- 组合按钮-->
+        <!-- 可以用如下修饰符来实现仅在按下相应按键时才触发鼠标或键盘事件的监听器。-->
+        <!-- - `.ctrl` - `.alt` - `.shift`-->
+        <!-- Alt + C -->
+        <input @keyup.alt.67="clear">
+        <!-- Ctrl + Click -->
+        <div @click.ctrl="doSomething">Do something</div>
+
+    </div>
+
+</body>
+<script type="text/javascript">
+    var app = new Vue({
+        el:"#app",
+        data:{
+            name:"小侠",
+            num:1,
+            hello:"<h1>大家好</h1>",
+            language:[],
+        },
+        methods:{
+            add:function () {
+                this.num++;
+            },
+            fun:function (event) {
+                alert(event)
+            },
+            submit:function () {
+                alert("确认目标")
+            },
+            clear:function () {
+                alert("清理目标")
+            }
+        }
+    })
+</script>
+</html>

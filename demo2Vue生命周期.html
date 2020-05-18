@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+<!--    vue生命周期-->
+<!--        新建vue实例-->
+<!--        创建之前 beforeCreate-->
+<!--        创建 created-->
+<!--        挂载之前 beforeMount-->
+<!--        挂载 mounted-->
+<!--        修改之前 beforeUpdate-->
+<!--        修改 updated-->
+<!--        销毁之前 beforeDestroyed-->
+<!--        销毁 destroyed-->
+    <!--我们可以在Vue中定义一个created函数，代表这个时期的构造函数-->
+    <div id="bpp">
+        {{hello}}
+        <input type="submit" v-on:click="one">
+    </div>
+
+</body>
+<script type="text/javascript">
+    var bpp = new Vue({
+        el:"#bpp",
+        data:{
+            hello: '',
+        },
+        methods:{
+            one:function() {
+                alert("...")
+            }
+        },
+        created(){
+           this.hello = "我来了";
+           console.log(this)
+        }
+    })
+</script>
+</html>
