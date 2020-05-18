@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <!--  v-bind  -->
+    <div id="app">
+        <!--  假如我们想动态的修改页面元素的属性， -->
+        <!--  比如class属性，这样写是错误的：<div class="{{isAcctive}}"></div>  -->
+        <!--  因为插值表达式不能用在属性的值中。-->
+        <!--  Vue对class属性进行了特殊处理，可以接收数组或对象格式： -->
+
+        <!-- > 数组语法  我们可以借助于`v-bind`指令来实现：-->
+        <!-- HTML：-->
+
+        <div v-bind:class="isActive"></div>
+
+        <!-- 你的data属性：-->
+        <!-- data:{
+                 isActive:['active','hasError']
+            }   -->
+
+        <!-- 渲染后的效果：-->
+        <div class="active hasError"></div>
+
+        <!--  对象语法 我们可以传给 `v-bind:class` 一个对象，以动态地切换 class：-->
+        <div v-bind:class="{ active: isActive }"></div>
+
+        <!--上面的语法表示`active`这个class存在与否将取决于数据属性`isActive`的
+        [truthiness](https://developer.mozilla.org/zh-CN/docs/Glossary/Truthy)。
+        你可以在对象中传入更多属性来动态切换多个class。
+        此外，`v-bind:class`指令也可以与普通的class属性共存。当有如下模板:-->
+        <div class="static"
+             v-bind:class="{ active: isActive, 'text-danger': hasError }">
+        </div>
+
+        <!-- 和如下data：-->
+        <!-- data: {
+                        isActive: true,
+                        hasError: false
+         } -->
+
+        <!-- 结果渲染为：-->
+        <div class="static active">
+
+        </div>
+        <!--当 `isActive` 或者 `hasError` 变化时，class 列表将相应地更新。
+        例如，如果 `hasError`的值为 `true`，class 列表将变为`"static active text-danger"`。
+        `v-bind:class`可以简写为`:class`-->
+
+        <!-- 计算属性 -->
+        <h1>
+            您的生日是：{{ new Date(birthday).getFullYear() + '-'+ new Date(birthday).getMonth()+ '-' + new Date(birthday).getDay() }}
+        </h1>
+
+        <!-- watch可以让我们监控一个值的变化。从而做出相应的反应 -->
+        <input type="text" v-model="message">
+
+    </div>
+
+</body>
+<script type="text/javascript">
+   new Vue({
+       el:"#app",
+       data:{
+           birthday:1529032123201, // 毫秒值
+           message:""
+       },
+       methods:{
+
+       },
+       computed:{
+           birth(){// 计算属性本质是一个方法，但是必须返回结果
+               const d = new Date(this.birthday);
+               return d.getFullYear() + "-" + d.getMonth() + "-" + d.getDay();
+           }
+       },
+       watch:{
+           message(newVal, oldVal){
+               console.log(newVal, oldVal);
+           }
+       }
+
+
+
+   })
+</script>
+</html>
