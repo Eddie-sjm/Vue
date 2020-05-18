@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <!--  组件通信  -->
+    <div id="app">
+        <h1>打个招呼：</h1>
+        <!--使用子组件，同时传递title属性-->
+        <introduce title="大家好，我是虎哥"/>
+        <!-- 或者 -->
+        <!-- <introduce :title="aaa"></introduce> -->
+
+        <!-- 传递复杂数据 -->
+        <!-- 我们定义一个子组件： -->
+        <!--const myList = {
+            template:'\
+            <ul>\
+                <li v-for="item in items" :key="item.id">{{item.id}} : {{item.name}}</li>\
+            </ul>\
+            ',
+            props: ["items"]
+        }-->
+
+
+       <!-- const myList = {
+            template:'\
+            <ul>\
+                <li v-for="item in items" :key="item.id">{{item.id}} : {{item.name}}</li>\
+            </ul>\
+            ',
+            props:{ // 通过props来接收父组件传递来的属性
+                items:{// 这里定义items属性
+                    type:Array,// 要求必须是Array类型
+                    default:[] // 如果父组件没有传，那么给定默认值是[]
+                }
+            }
+        }
+        这个子组件可以对 items 进行迭代，并输出到页面。
+        但是组件中并未定义items属性。
+        通过props来定义需要从父组件中接收的属性
+        items：是要接收的属性名称
+        type：限定父组件传递来的必须是数组，否则报错
+        default：默认值-->
+        <h2>我已开设如下课程：</h2>
+        <!-- 使用子组件的同时，传递属性，这里使用了v-bind，指向了父组件自己的属性lessons -->
+        <my-list :items="lessons"/>
+
+    </div>
+
+</body>
+<script type="text/javascript">
+    Vue.component("introduce",{
+        // 直接使用props接收到的属性来渲染页面
+        template:'<h1>{{title}}</h1>',
+        props:['title'] // 通过props来接收一个父组件传递的属性
+    });
+    /*或者*/
+    /*Vue.component("introduce",{
+        template:"<h3>{{title}}</h3>",
+        props:["title"]
+    });*/
+
+    var app = new Vue({
+        el:"#app",
+        components:{
+            myList // 当key和value一样时，可以只写一个
+        },
+        data:{
+            lessons:[
+                {id:1, name: 'java'},
+                {id:2, name: 'php'},
+                {id:3, name: 'ios'},
+            ]
+        }
+
+    });
+    /*或者*/
+    /*let app = new Vue({
+        el:"#app",
+        data:{
+            aaa:"刘德华好！"
+        }
+    })*/
+    const myList = {
+        template:'<ul> <li v-for="item in items" :key="item.id">{{item.id}} : {{item.name}}</li> </ul> ',
+        props:{ // 通过props来接收父组件传递来的属性
+            items:{// 这里定义items属性
+                type:Array,// 要求必须是Array类型
+                default:[] // 如果父组件没有传，那么给定默认值是[]
+            }
+        }
+    }
+
+</script>
+</html>

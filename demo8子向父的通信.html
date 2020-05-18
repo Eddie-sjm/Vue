@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <!--  组件通信  -->
+    <div id="app">
+        <h2>num: {{num}}</h2>
+        <!--使用子组件的时候，传递num到子组件中-->
+        <counter :num="num"></counter>
+        <!--子组件接收到父组件属性后，默认是不允许修改的。怎么办？-->
+        <!--既然只有父组件能修改，那么加和减的操作一定是放在父组件-->
+        <!--但是，点击按钮是在子组件中，那就是说需要子组件来调用父组件的函数，怎么做？
+        我们可以**通过v-on指令将父组件的函数绑定到子组件**上-->
+        <h2>num: {{num}}</h2>
+        <counter :count="num" @inc="increment" @dec="decrement"></counter>
+        <!--然后，当子组件中按钮被点击时，调用绑定的函数：-->
+        <!--vue提供了一个内置的this.$emit函数，用来调用父组件绑定的函数-->
+
+    </div>
+
+</body>
+<script type="text/javascript">
+    // Vue.component("counter", {// 子组件，定义了两个按钮，点击数字num会加或减
+    //     template:'<div><button @click="plus">加</button><button @click="num--">减</button></div>',
+    //     props:['num']// count是从父组件获取的。
+    // });
+    Vue.component("counter", {
+        template:'\
+        <div>\
+            <button @click="plus">加</button>  \
+            <button @click="reduce">减</button>  \
+        </div>',
+        props:['count'],
+        methods:{
+            plus(){
+                this.$emit("inc");
+            },
+            reduce(){
+                this.$emit("dec");
+            }
+        }
+    })
+
+    var app = new Vue({
+        el:"#app",
+        data:{
+            num:0,
+        },
+        methods:{// 父组件中定义操作num的方法
+            increment(){
+                this.num++;
+            },
+            decrement(){
+                this.num--;
+            }
+        }
+    });
+</script>
+</html>
